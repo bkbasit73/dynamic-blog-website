@@ -3,17 +3,51 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog Homepage</title>
     <link rel="stylesheet" href="styles.css" />
+    <title>Blog Homepage</title>
   </head>
   <body>
     <header>
       <h1>My Blog</h1>
-      <a href="new-post.html">Create New Post</a>
+      <nav>
+        <a href="new-post.html">Create New Post</a>
+      </nav>
     </header>
     <main id="post-list">
-      <!-- Blog posts will be dynamically loaded here -->
+      <h2>Blog Posts</h2>
+      <div id="posts"></div>
     </main>
-    <script src="script.js"></script>
+    <footer>
+      <p>&copy; 2024 My Blog</p>
+    </footer>
+    <script>
+      const postsContainer = document.getElementById("posts");
+
+      function loadPosts() {
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        postsContainer.innerHTML = "";
+
+        posts.forEach((post, index) => {
+          const postDiv = document.createElement("div");
+          postDiv.classList.add("post");
+          postDiv.innerHTML = `
+                    <h3>${post.title}</h3>
+                    <p>${post.content}</p>
+                    <a href="post.html?id=${index}">Edit</a>
+                    <button onclick="deletePost(${index})">Delete</button>
+                `;
+          postsContainer.appendChild(postDiv);
+        });
+      }
+
+      function deletePost(index) {
+        const posts = JSON.parse(localStorage.getItem("posts")) || [];
+        posts.splice(index, 1);
+        localStorage.setItem("posts", JSON.stringify(posts));
+        loadPosts();
+      }
+
+      window.onload = loadPosts;
+    </script>
   </body>
 </html>
