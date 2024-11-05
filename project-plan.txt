@@ -1,0 +1,3 @@
+git add project-plan.txt
+git commit -m "Add project plan for Dynamic Blog Website"
+git push origin main
